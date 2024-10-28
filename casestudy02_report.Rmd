@@ -1,0 +1,255 @@
+---
+title: 'Stats 250: Case Study 2 Report'
+author: "Your Name and (if applicable) Partner Name"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Instructions
+
+In the bottom right window, click on the file titled `casestudy02_instructions.pdf`. Thoroughly read through the background and assignment instructions in order to complete the case study below. We strongly encourage you to work on this assignment with a partner. 
+
+- If you selected the "Individual Work" approach for lab, you must submit your own report to Gradescope. Submitting your assignment with another student will result in a score deduction. 
+
+- If you selected the "Team Work" approach for lab, you may (but are not required to) submit your report with *one* additional student in your registered lab section. Be sure to include both names at the top of this document - and be sure that both names are in the same set of quotes (e.g., "John Smith and Jane Doe"). Additionally, be sure to add your teammate to the assignment submission on Gradescope. 
+
+
+***
+
+
+## Goal
+
+You work with the DDS program in the state of California and have been tasked with analyzing the following claim:  
+
+*Is a consumer's ethnicity associated with the amount of money the state of California spends on their DDS services and support? Or is this relationship influenced by additional factors?*
+
+
+***
+
+
+## Data
+
+The data set includes information for a sample of 680 consumers (out of a total population of approximately 250,000). The variables include:
+
+1. `expenditures`: amount of services and support provided by the DDS (in dollars)
+2. `age`: age of consumer (in years)
+3. `age.group`: age group of consumer (Child or Adult)
+4. `sex`: sex of consumer (Female or Male)
+5. `ethnicity`: ethnicity of consumer (Hispanic or White not Hispanic)
+
+
+Use the following code chunk to read in the data set. 
+
+```{r read_data, include = FALSE}
+load("dds.rda")
+```
+
+And be sure to load any necessary packages!
+
+```{r load_packages, include = FALSE}
+library(ggplot2)
+```
+
+
+***
+
+\newpage
+
+## Analysis of Full Data Set
+
+Use the following code chunks to complete the analysis of expenditures and ethnicity using the full data set. Note: you might not use all of the code chunks below. Feel free to delete excess code chunks or leave them in the document.
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+***
+
+\newpage
+
+## Analysis of Confounding Variables
+
+Explore Age.Group and Sex as potential confounding variables for the relationship between expenditures and ethnicity. Note: you might not use all of the code chunks below. Feel free to delete excess code chunks or leave them in the document.
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+***
+
+\newpage
+
+## Analysis of First Subset
+
+Identify which variable appears to be a confounding variable (Age.Group or Sex) and analyze the first subset of this variable (children or females, respectively). Use the following code chunks to read in the appropriate subset and complete its analysis. Note: you might not use all of the code chunks below. Feel free to delete excess code chunks or leave them in the document.
+
+```{r read_children, include = FALSE}
+load("children.rda")
+```
+
+
+```{r read_females, include = FALSE}
+load("females.rda")
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+***
+
+\newpage
+
+## Analysis of Second Subset
+
+Analyze the second subset (adults or males). Use the following code chunks to read in the appropriate subset and complete its analysis. Note: you might not use all of the code chunks below. Feel free to delete excess code chunks or leave them in the document.
+
+```{r read_adults, include = FALSE}
+load("adults.rda")
+```
+
+```{r read_males, include = FALSE}
+load("males.rda")
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+***
+
+\newpage
+
+## Report
+
+## Introduction
+
+Replace this text with...
+
+
+
+\newpage
+
+## Prosecution's Anticipated Analysis
+
+Replace this text with...
+
+
+
+\newpage
+
+## Defense's Substantive Analysis
+
+Replace this text with...
+
+
+
+\newpage
+
+## Conclusion
+  
+Replace this text with...
+
+
+***
+
+\newpage
+
+## Word Count
+
+Self-report the word count of your report by following the steps below:
+
+1. Highlight all of the text in the "Report" section above
+2. In the top toolbar, click Edit > Word Count
+3. Report the value of "Selected words" below
+
+**Word Counts:** Replace this text with your word count
+
+
+***
+
+
+## Submission Instructions
+
+Carefully follow the instructions below to properly submit your completed work.
+
+1. At the top of the document, change the `author` field to your name. If you have a partner, please include their name in the `author` field. **NOTE:** both names must appear in the same set of quotes (e.g., "John Smith and Jane Doe").  Do not change any of the other fields (title, date, output).
+
+2. Click the **Knit** button.
+
+3. Click on the file titled `casestudy02_report.pdf` in the bottom right window and confirm that your work has knitted properly. 
+
+4. In the bottom right window, check the box next to `casestudy02_report.pdf` 
+
+5. Click More > Export. Note: you may see a gear icon instead of "More". 
+
+6. Click Download and save the file to your computer. Do not change the name of the file ("casestudy02_report.pdf"). 
+
+7. Head to Gradescope and navigate to the corresponding assignment. 
+
+8. Click "Submit PDF" and upload your `casestudy02_report.pdf` file. 
+
+9. Assign the pages of your document to the corresponding questions in Gradescope. 
+
+10. If you selected the Team Work approach for lab and are submitting your work as a pair, please be sure to add your partner's name to the submission in Gradescope.
+
+Congratulations - you have completed the second case study!
+
+
+
+

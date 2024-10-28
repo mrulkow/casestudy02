@@ -1,0 +1,230 @@
+---
+title: 'Stats 250: Case Study 2 Resources'
+author: "Instructional Team"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Learning Objectives
+1. Run a two-sample t-test
+
+
+***
+
+
+## Coding Examples
+
+### Load Data and Packages
+
+Before we get started, be sure to load the following packages. 
+
+```{r load_packages, message = FALSE, warning = FALSE}
+library(ggplot2)
+```
+
+We will also take this time to read in our data set. We will be using the `penguins_subset2` data set from Lab 3. As a reminder, this data set excludes Gentoo penguins - allowing us to analyze Adelie and Chinstrap penguins. 
+
+```{r read_penguins_subset}
+penguins_subset2 <- read.csv("penguins_subset2.csv")
+```
+
+
+### Review of Lab 3 Analysis - Part 1
+
+With this data set, we found that there appeared to be an association between body mass and sex, as shown below in the boxplot. 
+
+```{r boxplots_body_mass_by_sex}
+ggplot(data = penguins_subset2, aes(x = sex, y = body_mass_g)) + 
+  
+  geom_boxplot() + 
+  
+  labs(title = "Side-by-Side Boxplots of Body Mass by Sex",
+       subtitle = "(for a sample of 214 penguins)",
+       x = "Sex",
+       y = "Body Mass (in grams)")
+```
+
+From the plot, we observe that there is a notable difference in body mass by sex. The median body mass of males is much larger than that of females - and similar conclusions can be drawn when comparing the first and third quantiles.
+
+If we wanted to *test* this claim statistically, we could use a two-sample t-test. 
+
+
+### Two-Sample t-Tests
+
+Suppose our analysis aims to assess if there is a *difference* in the average body mass of female penguins and the average body mass of male penguins. To conduct a two-sample t-test for this analysis, the hypotheses would be:
+
+- H0: mu_female - mu_male = 0
+- Ha: mu_female - mu_male =/ 0
+
+Where "mu_female - mu_male" represents the true, but unknown difference in the mean body mass of female penguins and the mean body mass of male penguins.
+
+Note: you are welcome to define the means separately. For example, you may also write...where "mu_female" represents the true, but unknown average body mass of female penguins and "mu_male" represents the true, but unknown average body mass of male penguins.
+
+When running a two-sample t-test in R, there are two things to note. 
+
+The order of the variables is extremely important (the quantitative variable must go first) and the variables are separated by a tilde (~).  
+
+For the `alternative` argument, we need to specify the direction of the alternative hypothesis. The three options that we can provide are:
+
+- "less"
+- "greater"
+- "two.sided"
+
+Please note that we must include quotation marks around the text. 
+
+To evaluate if there is a *difference* in the average body mass of female and male penguins, the code would look like this:
+
+```{r two_sample_t_test_example}
+t.test(body_mass_g ~ sex,
+       data = penguins_subset2,
+       alternative = "two.sided")
+```
+
+The p-value of "< 2.2e-16" looks strange...
+
+This is scientific notation for a value that is less than 2.2 x 10^(-16) (or 0.00000000000000022). In other words, the test returns an *extremely* small p-value. 
+
+This data provides *very strong* evidence to suggest that there is a *difference* in the average body mass of female and male penguins. (And this result checks out with what we observed in the side-by-side boxplots above.)
+
+
+### Review of Lab 3 Analysis - Part 2
+
+We also explored the idea of potentially confounding variables. Is the observed relationship between body mass and sex influenced by other factors - such as species?
+
+To explore if species is a potentially confounding factor for the relationship of body mass and sex, we could use color to introduce a third variable to the plot. 
+
+```{r boxplots_confounding_variable}
+ggplot(data = penguins_subset2, 
+       aes(x = sex, y = body_mass_g, fill = species)) + 
+  
+  geom_boxplot() + 
+  
+  labs(title = "Side-by-Side Boxplots of Body Mass by Sex and Species",
+       subtitle = "(for a sample of 214 penguins)",
+       x = "Sex",
+       y = "Body Mass (in grams)")
+```
+
+From the plot, it doesn't seem like species has a large influence on the observed relationship from before. Why...?
+
+- When looking at the data of *female* penguins, the body mass of *Adelie* penguins appears to be similar to the body mass of *Chinstrap* penguins, in general. While small differences exists, the more obvious difference in body mass is seen when comparing the two sexes (i.e., comparing the two red boxplots - or comparing the two turquoise boxplots).
+
+- And when looking at the data of *male* penguins, again, the body mass of *Adelie* penguins appears to be similar to the body mass of *Chinstrap* penguins, in general. The boxplots comparing the species have a lot of overlap when controlling for sex. 
+
+We could test these ideas further by filtering the data to a specific sex (such as males) and then running a two-sample t-test to compare the average body mass of the two species. 
+
+Use the code chunk below to read in a data set that removes all female penguins from the previous data set. In other words, it only includes male Adelie and Chinstrap penguins. 
+
+```{r read_male_subset}
+male_penguins_subset <- read.csv("male_penguins_subset.csv")
+```
+
+To test if there is a difference between the average body mass of male Adelie penguins and the average body mass of male Chinstrap penguins, the code would look like this:
+
+```{r two_sample_t_test_example2}
+t.test(body_mass_g ~ species,
+       data = male_penguins_subset,
+       alternative = "two.sided")
+```
+
+With a p-value of 0.1639, there is not enough evidence against the null and in support of the alternative. Based on the sample data, we do not have enough evidence to suggest there is a difference between the average body mass of male Adelie penguins and the average body mass of male Chinstrap penguins.
+
+In this example, species does not appear to be a confounding variable.
+
+
+
+## Function Review
+
+In order to complete the case study, you will need some functions from previous labs. Instead of navigating back and forth, we have included some coding examples below. 
+
+
+### Numerical Summaries by Group
+
+Create numerical summaries across the groups of a categorical variable.
+
+```{r review_aggregate_example}
+aggregate(body_mass_g ~ sex, data = penguins_subset2, FUN = mean)
+```
+
+
+### Side-by-Side Boxplots
+
+If you wish to add color to you side-by-side boxplots, you can use the `fill` argument.
+
+```{r review_boxplots}
+ggplot(data = penguins_subset2, aes(x = sex, y = body_mass_g)) + 
+  
+  geom_boxplot() +
+  
+  labs(title = "Side-by-Side Boxplots of Penguin Body Mass by Sex",
+       subtitle = "(for a sample of 214 penguins)",
+       x = "Sex",
+       y = "Body Mass (in grams)")
+```
+
+
+### Three-Way Plots with Color
+
+If you wish to manually change the colors of the side-by-side boxplots above, we can attach `scale_fill_manual()` to the end of our code.
+
+```{r review_confounding_boxplots}
+ggplot(data = penguins_subset2, 
+       aes(x = sex, y = body_mass_g, fill = species)) + 
+  
+  geom_boxplot() + 
+  
+  labs(title = "Side-by-Side Boxplots of Body Mass by Sex and Species",
+       subtitle = "(for a sample of 214 penguins)",
+       x = "Sex",
+       y = "Body Mass (in grams)") 
+```
+
+
+If you wish to customize the plots with your own colors, check out the examples below. 
+
+
+### Side-by-Side Boxplots with Customized Colors
+
+If you wish to add color to you side-by-side boxplots, you can use the `fill` argument.
+
+```{r review_boxplots_with_customized_color}
+ggplot(data = penguins_subset2, aes(x = sex, y = body_mass_g)) + 
+  
+  geom_boxplot(fill = c("khaki", "lightblue")) +
+  
+  labs(title = "Side-by-Side Boxplots of Penguin Body Mass by Species",
+       subtitle = "(for a sample of 214 penguins)",
+       x = "Sex",
+       y = "Body Mass (in grams)")
+```
+
+
+### Three-Way Plots with Customized Colors
+
+If you wish to manually change the colors of the side-by-side boxplots above, we can attach `scale_fill_manual()` to the end of our code.
+
+```{r review_confounding_boxplots_with_customized_color}
+ggplot(data = penguins_subset2, 
+       aes(x = sex, y = body_mass_g, fill = species)) + 
+  
+  geom_boxplot() + 
+  
+  labs(title = "Side-by-Side Boxplots of Body Mass by Sex and Species",
+       subtitle = "(for a sample of 214 penguins)",
+       x = "Sex",
+       y = "Body Mass (in grams)") + 
+  
+  scale_fill_manual(values = c("lightblue", "khaki"))
+```
+
+
+
+Click on the file titled `casestudy02_report.Rmd` to navigate to the case study assignment!
